@@ -5,6 +5,7 @@ var camObj : GameObject;
 var enemyObj : GameObject;
 var cam : Camera;
 var enemy : Rigidbody2D;
+var bullet : Rigidbody2D;
 public var S_height:float;
 public var S_width:float;
 var bulletObj : GameObject;	
@@ -21,16 +22,42 @@ function Start ()
 	S_height = 2f*cam.orthographicSize;//height of screen
 	S_width = S_height*cam.main.aspect;//width of screen
 }
-
-function Update () 
-{
- if (Input.GetMouseButtonDown(0))
- {
- PShoot();
- 
- }
+/*
+function OnCollisionEnter2D(other:Collision2D){
+  	if(other.gameObject.name=="BULLET(Clone)"){
+		Destroy(other.gameObject); 
+    	Destroy(gameObject); 
+	}
 }
 
+*/
+function Update () 
+{
+	 if (Input.GetMouseButtonDown(0))
+	 {
+	 PShoot();
+	 
+	 }
+}
+
+function OnCollisionEnter2D(other:Collision2D){
+  	if(other.gameObject.name=="BULLET(Clone)")
+  	{
+		Destroy(other.gameObject); 
+    	if(PlayerHealth > 0)
+    	{
+    		PlayerHealth-=20;
+    		
+    	}
+    	else
+    	{
+    		print("PLAYER IS DEAD");
+    		Destroy(this.gameObject); 
+    		Time.timeScale = 0; 
+    	}
+    	
+    }
+   }
 function FixedUpdate()
 {
 	//movement with boundary
@@ -51,7 +78,7 @@ function PShoot()// how to speed up player's bullets ?
 	var bulletInstance:Rigidbody2D;
 	var bulletVector : Vector3 = new Vector3(CROSSHAIR.transform.position.x - transform.position.x, CROSSHAIR.transform.position.y - transform.position.y, 0);//vector directing bullet towards player location at time of shooting
 	
-		bulletInstance = Instantiate(bullet, transform.position, Quaternion.Euler(new Vector3(0,0,0)));
+		bulletInstance = Instantiate(bullet, Vector3(transform.position.x,transform.position.y+1,0), Quaternion.Euler(new Vector3(0,0,0)));
 		bulletInstance.velocity = bulletVector*2;
 	
 }
