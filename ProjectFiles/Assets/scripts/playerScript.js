@@ -10,6 +10,7 @@ public var S_height:float;
 public var S_width:float;
 var bulletObj : GameObject;	
  var CROSSHAIR : GameObject;
+var bulletSpeed : float = 10;
 //edit
 public var PlayerHealth:int = 100;
 
@@ -76,9 +77,8 @@ function PShoot()// how to speed up player's bullets ?
 	print("PlayerSHOOT");	
 	var bullet:Rigidbody2D = bulletObj.GetComponent(Rigidbody2D);
 	var bulletInstance:Rigidbody2D;
-	var bulletVector : Vector3 = new Vector3(CROSSHAIR.transform.position.x - transform.position.x, CROSSHAIR.transform.position.y - transform.position.y, 0);//vector directing bullet towards player location at time of shooting
+	var bulletVector : Vector3 = new Vector3(CROSSHAIR.transform.position.x - transform.position.x, CROSSHAIR.transform.position.y - transform.position.y, 0).normalized;//vector directing bullet towards player location at time of shooting
 	
 		bulletInstance = Instantiate(bullet, Vector3(transform.position.x,transform.position.y+1,0), Quaternion.Euler(new Vector3(0,0,0)));
-		bulletInstance.velocity = bulletVector*2;
-	
+		bulletInstance.velocity = bulletVector * bulletSpeed;
 }

@@ -4,6 +4,7 @@ var speed : float = 2.0;
 var bulletObj : GameObject;
 var playerObj : GameObject;
 var bullet_P : GameObject;
+var bulletSpeed : float = 5;
 
 function Start () 
 {
@@ -50,10 +51,10 @@ function Shoot()
 	//bulletObj:GameObject;
 	var bullet:Rigidbody2D = bulletObj.GetComponent(Rigidbody2D);
 	var bulletInstance:Rigidbody2D;
-	var bulletVector : Vector3 = new Vector3(playerObj.transform.position.x - transform.position.x, playerObj.transform.position.y - transform.position.y, 0);//vector directing bullet towards player location at time of shooting
+	var bulletVector : Vector3 = new Vector3(playerObj.transform.position.x - transform.position.x, playerObj.transform.position.y - transform.position.y, 0).normalized;//vector directing bullet towards player location at time of shooting
 	if(transform.position.y > playerObj.transform.position.y + 3 && gameObject.name == "ENEMY(Clone)")//checks that enemies are certain distance above player, and makes original NOT shoot
 	{
 		bulletInstance = Instantiate(bullet, Vector3(transform.position.x,transform.position.y-1,0), Quaternion.Euler(new Vector3(0,0,0)));
-		bulletInstance.velocity = bulletVector;
+		bulletInstance.velocity = bulletVector * bulletSpeed;
 	}
 }
